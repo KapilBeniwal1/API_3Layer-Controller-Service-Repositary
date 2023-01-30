@@ -1,34 +1,45 @@
 package com.IronMan.LayerStudentManagementApp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-/*
-Inside this class we will only define our API
-pass the information to the service layer , It will not do any kind of processing task it will just
-pass the info to the service layer
- */
+
+
 @RestController
 public class StudentController {
+
     @Autowired
     StudentService studentService;
 
     @GetMapping("/get_student")
-    public Student getStudent(@RequestParam("id")int id){
-        return studentService.getStudent(id);
+    public ResponseEntity getStudent(@RequestParam("admnNo") int admnNo){
+        Student student = studentService.getStudent(admnNo);
+        return new ResponseEntity<>(student, HttpStatus.FOUND);
     }
-
-    @PutMapping("/update_student")
-    public String updateStudent(@RequestParam("id") int id,@RequestParam("age") int age){
-        return studentService.updateStudent(id, age);
-    }
-
+    // adding the information
     @PostMapping("/add_student")
-    public String addStudent(@RequestBody Student student){
-        return studentService.addStudent(student);
+    public ResponseEntity addStudent(@RequestBody Student student){
+        String response = studentService.addStudent(student);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete_student")
-    public String deleteStudent(@RequestParam("id") int id){
-        return studentService.deleteStudent(id);
+    public ResponseEntity deleteStudent(@RequestParam("id") int id){
+        String response = studentService.deleteStudent(id);
+        if(response.equals("Invalid id")){
+            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(response,HttpStatus.FOUND);
+    }
+    @PutMapping("/update_student")
+    public ResponseEntity updateStudent(@RequestParam("id") int id,@RequestParam("age") int age){
+        String response = studentService.updateStudent(id,age);
+        if(response==null){
+            return new ResponseEntity("Invalid request",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity("Updated",HttpStatus.ACCEPTED);
     }
 }

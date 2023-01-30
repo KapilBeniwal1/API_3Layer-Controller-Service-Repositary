@@ -8,20 +8,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.Map;
 @Repository
-
 public class StudentRepositary {
     Map<Integer,Student> db = new HashMap<>();
-
-    public Student getStudent(int admnNo){
-        return db.get(admnNo);
+    public Student getStudent(int id){
+        return db.get(id);
     }
-
-    public String addStudent( Student student){
+    public String addStudent(Student student){
         int id = student.getAdmnNo();
         db.put(id,student);
         return "Student added successfully";
     }
-
     public String deleteStudent(int id){
         if(!db.containsKey(id)){
             return "Invalid ID";
@@ -29,7 +25,6 @@ public class StudentRepositary {
         db.remove(id);
         return "Student Removed Successfully";
     }
-
     public String updateStudent(int id ,int age){
         if(!db.containsKey(id)){
             return "Invalid Id";
@@ -40,7 +35,4 @@ public class StudentRepositary {
 
         return "Age updated successfully";
     }
-
-
-
 }

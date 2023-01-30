@@ -13,21 +13,21 @@ public class StudentService {
     @Autowired //assume that we have made object of the layer = studentRepositary class
     StudentRepositary studentRepositary;
 
-    public String addStudent(Student student){
+    public String addStudent(Student student) {
         //any logic that need to be done before sending it to the repo layer
         // those logic will be write here(before returning) respectively
         return studentRepositary.addStudent(student); //calling the function that was present in studentRepositary layer
     }
 
-    public Student getStudent(int id){
+    public Student getStudent(int id) {
         return studentRepositary.getStudent(id);
     }
 
-    public String deleteStudent(int id){
+    public String deleteStudent(int id) {
         return studentRepositary.deleteStudent(id);
     }
 
-    public String updateStudent(int id ,int age){
+    public String updateStudent(int id, int age) {
         return studentRepositary.updateStudent(id, age);
     }
 
